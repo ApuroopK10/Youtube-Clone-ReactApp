@@ -9,7 +9,7 @@ const VideoCard = ({ video }) => {
         src={thumbnails?.medium?.url}
         className="rounded-lg mb-3"
       />
-      <div className="grid grid-flow-col pr-2">
+      <div className="grid grid-flow-col pr-2 pb-3">
         <div className="mt-1">
           <img
             alt="channel-pic"
@@ -18,7 +18,9 @@ const VideoCard = ({ video }) => {
           />
         </div>
         <div className="flex flex-col ml-3">
-          <h1 className="font-medium text-gray-900 text-lg">{title}</h1>
+          <h1 className="font-medium text-gray-900 text-md">
+            {title?.length > 35 ? title.slice(0, 60) + "..." : title}
+          </h1>
           <p className="text-gray-600 text-sm font-medium">{channelTitle}</p>
           <label className="text-gray-600 text-sm font-medium">
             {statistics?.viewCount} Views • {snippet?.publishedAt}

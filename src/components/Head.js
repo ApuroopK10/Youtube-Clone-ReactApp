@@ -1,16 +1,40 @@
-import React from "react";
-import { USER_ICON } from "../utils/constants";
-import { useDispatch } from "react-redux";
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, { useEffect, useState } from "react";
+import { USER_ICON, YOUTUBE_SEARCH_API } from "../utils/constants";
+import { useDispatch, useSelector } from "react-redux";
 import { toggleMenuIcon } from "../utils/appSlice";
 import { Link } from "react-router-dom";
+import { cacheResults } from "../utils/searchSlice";
 
 const Head = () => {
+  const [searchQuery, setSearchQuery] = useState("");
+  const [suggestions, setSuggestions] = useState([]);
+  const [showSuggestions, setShowSuggestions] = useState(false);
+  const searchCache = useSelector((store) => store.search);
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      if (searchCache[searchQuery]) {
+        setSuggestions(searchCache[searchQuery]);
+      } else {
+        fetchSearchResults();
+      }
+    }, 200);
+    return () => {
+      clearTimeout(timer);
+    };
+  }, [searchQuery]);
   const dispatch = useDispatch();
   const toggleMenu = () => {
     dispatch(toggleMenuIcon());
   };
+  const fetchSearchResults = async () => {
+    const response = await fetch(YOUTUBE_SEARCH_API + searchQuery);
+    const data = await response.json();
+    setSuggestions(data[1]);
+    dispatch(cacheResults({ [searchQuery]: data[1] }));
+  };
   return (
-    <div className="flex justify-between py-4 px-6 items-center shadow-sm">
+    <div className="fixed w-full  bg-white flex justify-between py-4 px-6 items-center shadow-sm">
       <div className="flex">
         <svg
           onClick={toggleMenu}
@@ -31,23 +55,52 @@ const Head = () => {
         </Link>
       </div>
       <div className="flex flex-1 mx-24">
-        <input
-          type="text"
-          className="border w-1/2 rounded-l-2xl placeholder:text-gray-400 p-1 pl-3 font-normal"
-          placeholder="Search"
-        />
-        <button className="px-5 bg-gray-200 rounded-r-2xl">
-          <svg
-            enableBackground="new 0 0 24 24"
-            height="24"
-            viewBox="0 0 24 24"
-            width="24"
-            focusable="false"
-            // style="pointer-events: none; display: block; width: 100%; height: 100%;"
-          >
-            <path d="m20.87 20.17-5.59-5.59C16.35 13.35 17 11.75 17 10c0-3.87-3.13-7-7-7s-7 3.13-7 7 3.13 7 7 7c1.75 0 3.35-.65 4.58-1.71l5.59 5.59.7-.71zM10 16c-3.31 0-6-2.69-6-6s2.69-6 6-6 6 2.69 6 6-2.69 6-6 6z"></path>
-          </svg>
-        </button>
+        <div className="w-full flex">
+          <input
+            type="text"
+            className="border w-1/2 rounded-l-2xl placeholder:text-gray-400 p-1 pl-3 font-normal"
+            placeholder="Search"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            onBlur={() => setShowSuggestions(false)}
+            onFocus={() => setShowSuggestions(true)}
+          />
+          <button className="px-5 py-1 bg-gray-200 rounded-r-2xl">
+            <svg
+              enableBackground="new 0 0 24 24"
+              height="24"
+              viewBox="0 0 24 24"
+              width="24"
+              focusable="false"
+            >
+              <path d="m20.87 20.17-5.59-5.59C16.35 13.35 17 11.75 17 10c0-3.87-3.13-7-7-7s-7 3.13-7 7 3.13 7 7 7c1.75 0 3.35-.65 4.58-1.71l5.59 5.59.7-.71zM10 16c-3.31 0-6-2.69-6-6s2.69-6 6-6 6 2.69 6 6-2.69 6-6 6z"></path>
+            </svg>
+          </button>
+        </div>
+        {suggestions.length > 0 && showSuggestions && (
+          <div className="fixed w-[34%] bg-white top-[52px] p-2 border border-gray-200 rounded-lg">
+            <ul>
+              {suggestions.map((suggest, idx) => (
+                <li
+                  className="my-1 px-2 flex font-medium hover:bg-gray-100"
+                  key={suggest + idx}
+                >
+                  <svg
+                    enableBackground="new 0 0 24 24"
+                    height="20"
+                    viewBox="0 0 24 24"
+                    width="20"
+                    focusable="false"
+                    className="mr-4 mt-1"
+                  >
+                    <path d="m20.87 20.17-5.59-5.59C16.35 13.35 17 11.75 17 10c0-3.87-3.13-7-7-7s-7 3.13-7 7 3.13 7 7 7c1.75 0 3.35-.65 4.58-1.71l5.59 5.59.7-.71zM10 16c-3.31 0-6-2.69-6-6s2.69-6 6-6 6 2.69 6 6-2.69 6-6 6z"></path>
+                  </svg>{" "}
+                  {suggest}
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
       </div>
       <div className="cursor-pointer">
         <img alt="user-icon" className="h-8" src={USER_ICON} />
