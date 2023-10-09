@@ -6,7 +6,7 @@ const SideBar = () => {
   const { toggleMenu } = useSelector((store) => store.app);
   if (!toggleMenu) return null;
   return (
-    <div className="p-5 shadow-lg col-span-2">
+    <div className="p-5 shadow-lg col-span-2 w-1/5 pr-0 pl-6">
       <h1>
         <Link to="/">Home</Link>
       </h1>

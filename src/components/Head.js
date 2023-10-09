@@ -34,7 +34,7 @@ const Head = () => {
     dispatch(cacheResults({ [searchQuery]: data[1] }));
   };
   return (
-    <div className="fixed w-full  bg-white flex justify-between py-4 px-6 items-center shadow-sm">
+    <div className="fixed w-full  bg-white flex justify-between py-4 px-6 items-center shadow-sm top-0">
       <div className="flex">
         <svg
           onClick={toggleMenu}

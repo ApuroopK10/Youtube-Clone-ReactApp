@@ -10,7 +10,7 @@ const MainContainer = () => {
     dispatch(toggleMenuManually(true));
   }, []);
   return (
-    <div className="col-span-11 p-4">
+    <div className="p-4 w-4/5">
       <ButtonList />
       <VideoContainer />
     </div>
