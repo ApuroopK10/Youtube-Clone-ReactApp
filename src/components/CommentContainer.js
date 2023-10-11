@@ -29,7 +29,7 @@ const CommentList = ({ comments }) => {
 
 const CommentContainer = () => {
   return (
-    <div className="m-5 p-2">
+    <div className="m-5 p-2 mt-0">
       <h1 className="font-bold text-xl">Comments:</h1>
       <CommentList comments={NESTED_COMMENTS} />
     </div>
