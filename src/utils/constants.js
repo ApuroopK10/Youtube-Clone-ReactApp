@@ -77,3 +77,4 @@ export const NESTED_COMMENTS = [
     replies: [],
   },
 ];
+export const CHAT_OFFSET_CLEAR = 10;
