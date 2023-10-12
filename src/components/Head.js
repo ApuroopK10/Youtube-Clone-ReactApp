@@ -3,13 +3,14 @@ import React, { useEffect, useState } from "react";
 import { USER_ICON, YOUTUBE_SEARCH_API } from "../utils/constants";
 import { useDispatch, useSelector } from "react-redux";
 import { toggleMenuIcon } from "../utils/appSlice";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { cacheResults } from "../utils/searchSlice";
 
 const Head = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [suggestions, setSuggestions] = useState([]);
   const [showSuggestions, setShowSuggestions] = useState(false);
+  const navigate = useNavigate();
   const searchCache = useSelector((store) => store.search);
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -62,7 +63,7 @@ const Head = () => {
             placeholder="Search"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            onBlur={() => setShowSuggestions(false)}
+            // onBlur={() => setShowSuggestions(false)}
             onFocus={() => setShowSuggestions(true)}
           />
           <button className="px-5 py-1 bg-gray-200 rounded-r-2xl">
@@ -84,6 +85,10 @@ const Head = () => {
                 <li
                   className="my-1 px-2 flex font-medium hover:bg-gray-100"
                   key={suggest + idx}
+                  onClick={() => {
+                    alert("hi");
+                    navigate("/search?searchQuery=" + suggestions[idx]);
+                  }}
                 >
                   <svg
                     enableBackground="new 0 0 24 24"
