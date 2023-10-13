@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import ChatMessage from "./ChatMessage";
 import { useDispatch, useSelector } from "react-redux";
-import { addMessage } from "../utils/chatSlice";
+import { addMessage, clearChat } from "../utils/chatSlice";
 import { generateRandomChatMessage } from "../utils/helper";
 
 const LiveChat = () => {
@@ -14,6 +14,7 @@ const LiveChat = () => {
 
     return () => {
       clearTimeout(timer);
+      dispatch(clearChat());
     };
   }, []);
   const { chatMessages } = useSelector((store) => store.chat);
