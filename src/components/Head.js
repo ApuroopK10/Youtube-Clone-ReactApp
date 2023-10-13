@@ -86,7 +86,6 @@ const Head = () => {
                   className="my-1 px-2 flex font-medium hover:bg-gray-100"
                   key={suggest + idx}
                   onClick={() => {
-                    alert("hi");
                     navigate("/search?searchQuery=" + suggestions[idx]);
                   }}
                 >

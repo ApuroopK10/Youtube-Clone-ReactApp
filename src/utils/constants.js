@@ -9,7 +9,7 @@ export const BUTTON_LIST = [
   "Live",
   "Gadgets",
 ];
-const GOOGLE_API_KEY = "AIzaSyAg-M-x6FOB9KtChSu-6RB0ucmV2pRu88s";
+export const GOOGLE_API_KEY = "AIzaSyAg-M-x6FOB9KtChSu-6RB0ucmV2pRu88s";
 export const YOUTUBE_VIDS_API =
   "https://youtube.googleapis.com/youtube/v3/videos?part=snippet%2CcontentDetails%2Cstatistics&chart=mostPopular&maxResults=50&regionCode=IN&key=" +
   GOOGLE_API_KEY;
@@ -78,3 +78,11 @@ export const NESTED_COMMENTS = [
   },
 ];
 export const CHAT_OFFSET_CLEAR = 10;
+export const SEARCH_VIDEOS =
+  // "https://www.youtube.com/youtubei/v1/search?key=" +
+  // GOOGLE_API_KEY +
+  // "&prettyPrint=false";
+  "https://youtube.googleapis.com/youtube/v3/search?part=snippet&maxResults=5&q={query}&type=video&key=" +
+  GOOGLE_API_KEY;
+export const CHANNEL_LIST =
+  "https://youtube.googleapis.com/youtube/v3/channels?part=snippet%2CcontentDetails%2Cstatistics";
