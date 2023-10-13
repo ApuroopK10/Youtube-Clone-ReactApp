@@ -1,4 +1,4 @@
-import { Link, useSearchParams } from "react-router-dom";
+import { Link, useLocation, useSearchParams } from "react-router-dom";
 import SearchVideoCard from "./SearchVideoCard";
 import { useEffect, useState } from "react";
 import {
@@ -11,9 +11,11 @@ const SearchContainer = () => {
   const [searchParams] = useSearchParams();
   const [videoResults, setVideoResults] = useState([]);
   const [channelResults, setChannelResults] = useState([]);
+  const location = useLocation();
+
   useEffect(() => {
     fetchVideoList();
-  }, []);
+  }, [location]);
 
   const fetchVideoList = async () => {
     const response = await fetch(

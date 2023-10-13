@@ -88,6 +88,7 @@ const Head = () => {
                   onClick={() => {
                     navigate("/search?searchQuery=" + suggestions[idx]);
                     setShowSuggestions(false);
+                    setSearchQuery(suggestions[idx]);
                   }}
                 >
                   <svg
